@@ -1,0 +1,11 @@
+# Counts Wikidata diseases (Q12136 and subclasses) with symptoms (P780), causes (P828) and both.
+# Run at https://query.wikidata.org. Result on 2026-11-09: 6,512 diseases, 324 with symptoms,
+# 391 with a cause, 83 with both.
+SELECT (COUNT(DISTINCT ?d) AS ?diseases) (COUNT(DISTINCT ?ds) AS ?withSymptom)
+       (COUNT(DISTINCT ?dc) AS ?withCause) (COUNT(DISTINCT ?db) AS ?withBoth)
+WHERE {
+  ?d wdt:P31/wdt:P279* wd:Q12136 .
+  OPTIONAL { ?d wdt:P780 ?s . BIND(?d AS ?ds) }
+  OPTIONAL { ?d wdt:P828 ?c . BIND(?d AS ?dc) }
+  OPTIONAL { ?d wdt:P780 ?s2 ; wdt:P828 ?c2 . BIND(?d AS ?db) }
+}
