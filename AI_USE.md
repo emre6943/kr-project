@@ -7,3 +7,4 @@ Add one row per use.
 |---|---|---|---|
 | 2026-11-06 | Emre | Claude | Set up this repository and copied the assignment text from Canvas |
 | 2026-11-09 | Emre | Claude | Surveyed data sources for the diseases domain; wrote `data/sources/` (fetch script, Wikidata coverage query, source notes) |
+| 2026-11-09 | Emre | Claude | Drafted `backbone.md` (class/relation skeleton, naming conventions, candidate disease list with DOID coverage) for the team to edit |
