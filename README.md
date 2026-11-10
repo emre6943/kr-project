@@ -30,4 +30,4 @@ formalising the competency questions.
 - **No GenAI text in the report.** GenAI may help with code and scripts; log every use in
   [`AI_USE.md`](AI_USE.md) so the report can disclose it.
 - **Commit early and often.** The final submission needs a screenshot of the version history.
-- Record who did what as we go; the report's appendix needs each member's contribution.
+- Record who did what as we go; the report's appendix needs each member's contribution..
