@@ -5,6 +5,29 @@ lecturer Dr. Patrick Koopmann. Worth 35% of the course grade; at least a 5.5 is 
 
 **Team (Canvas "Project Groups 40"):** Emre Özkan, Wiktoria Popko, Anshul Rao, Manisha Venkatesha.
 
+## Domain
+
+**Food** (chosen 2026-11-14, replacing diseases): ingredients and their categories, dishes,
+and people's likes, dislikes and restrictions, used to suggest what a person or a group might
+enjoy.
+
+## Repository layout
+
+| Path | What |
+|---|---|
+| [`ontology/food.omn`](ontology/food.omn) | the OWL ontology (Manchester syntax); design notes and what the reasoner infers in [`ontology/README.md`](ontology/README.md) |
+| [`competency-questions.md`](competency-questions.md) | competency questions, one section per scope owner |
+| [`AI_USE.md`](AI_USE.md) | log of every GenAI use, for the report's disclosure |
+| [`assignment/`](assignment/) | the project spec and the course rules, copied from Canvas |
+
+## Tools
+
+- **Protégé 5.6.9** with the bundled **HermiT** reasoner, the tool used in the lectures. Download
+  it from the [Protégé releases on GitHub](https://github.com/protegeproject/protege-distribution/releases)
+  (the Homebrew cask is disabled). On macOS the app is unsigned: right-click → Open the first
+  time.
+- Datalog with **Nemo** for the second formalism (lectures 8–9).
+
 ## The task
 
 Build a knowledge base about a domain of our choice in **two** course formalisms (**OWL is

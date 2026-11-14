@@ -1,0 +1,626 @@
+Prefix: : <http://example.org/kr-group40/food#>
+Prefix: owl: <http://www.w3.org/2002/07/owl#>
+Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+Prefix: xsd: <http://www.w3.org/2001/XMLSchema#>
+
+Ontology: <http://example.org/kr-group40/food>
+
+    Annotations:
+        rdfs:comment "Food ontology for the XM_0059 Knowledge Representation project (VU 2026, group 40). Step 1: ingredients and their categories."
+
+AnnotationProperty: rdfs:comment
+
+AnnotationProperty: rdfs:label
+
+
+# ---------------------------------------------------------------------------
+# Properties
+# ---------------------------------------------------------------------------
+
+ObjectProperty: hasIngredient
+    Annotations: rdfs:comment "Links a dish to an ingredient it is made with."
+    Domain: Dish
+    Range: Ingredient
+
+ObjectProperty: hasCuisine
+    Annotations: rdfs:comment "Links a dish to the cuisine it comes from."
+    Domain: Dish
+    Range: Cuisine
+
+
+# ---------------------------------------------------------------------------
+# Cuisines (individuals, so dishes can point at one with "value")
+# ---------------------------------------------------------------------------
+
+Class: Cuisine
+    DisjointWith: Food
+
+Individual: TurkishCuisine
+    Types: Cuisine
+Individual: ItalianCuisine
+    Types: Cuisine
+Individual: AmericanCuisine
+    Types: Cuisine
+Individual: BritishCuisine
+    Types: Cuisine
+
+DifferentIndividuals: TurkishCuisine, ItalianCuisine, AmericanCuisine, BritishCuisine
+
+
+# ---------------------------------------------------------------------------
+# Top level
+# ---------------------------------------------------------------------------
+
+Class: Food
+    Annotations: rdfs:comment "Anything that is eaten: an ingredient or a dish made from ingredients."
+
+Class: Ingredient
+    Annotations: rdfs:comment "A basic food that dishes are made from."
+    SubClassOf: Food
+
+Class: Dish
+    Annotations: rdfs:comment "A prepared food made from ingredients."
+    SubClassOf: Food
+
+DisjointClasses: Ingredient, Dish
+
+
+# ---------------------------------------------------------------------------
+# Ingredient categories
+#
+# The six top categories are pairwise disjoint: nothing is both a plant and
+# meat. Mushrooms are fungi, not plants, so they get their own category.
+# Fruit sits under the plant category.
+# ---------------------------------------------------------------------------
+
+Class: PlantIngredient
+    Annotations: rdfs:comment "An ingredient that comes from a plant."
+    SubClassOf: Ingredient
+
+Class: Mushroom
+    Annotations: rdfs:comment "An edible fungus. Fungi are not plants."
+    SubClassOf: Ingredient
+
+Class: Meat
+    Annotations: rdfs:comment "The flesh of a land animal."
+    SubClassOf: Ingredient
+
+Class: Seafood
+    Annotations: rdfs:comment "Fish and shellfish."
+    SubClassOf: Ingredient
+
+Class: Dairy
+    Annotations: rdfs:comment "Milk and products made from milk."
+    SubClassOf: Ingredient
+
+Class: Egg
+    SubClassOf: Ingredient
+
+DisjointClasses: PlantIngredient, Mushroom, Meat, Seafood, Dairy, Egg
+
+
+# Plant subcategories (culinary, not botanical: a tomato counts as a vegetable)
+
+Class: Vegetable
+    SubClassOf: PlantIngredient
+
+Class: Fruit
+    SubClassOf: PlantIngredient
+
+Class: Grain
+    SubClassOf: PlantIngredient
+
+Class: Legume
+    SubClassOf: PlantIngredient
+
+DisjointClasses: Vegetable, Fruit, Grain, Legume
+
+
+# Meat subcategories
+
+Class: RedMeat
+    SubClassOf: Meat
+
+Class: Poultry
+    SubClassOf: Meat
+
+DisjointClasses: RedMeat, Poultry
+
+
+# ---------------------------------------------------------------------------
+# Concrete ingredients
+# ---------------------------------------------------------------------------
+
+# Vegetables
+Class: Eggplant
+    SubClassOf: Vegetable
+Class: Tomato
+    SubClassOf: Vegetable
+Class: Onion
+    SubClassOf: Vegetable
+Class: Garlic
+    SubClassOf: Vegetable
+Class: BellPepper
+    SubClassOf: Vegetable
+Class: Potato
+    SubClassOf: Vegetable
+Class: Spinach
+    SubClassOf: Vegetable
+Class: Zucchini
+    SubClassOf: Vegetable
+Class: Carrot
+    SubClassOf: Vegetable
+Class: ChiliPepper
+    SubClassOf: Vegetable
+Class: Lettuce
+    SubClassOf: Vegetable
+Class: Parsley
+    SubClassOf: Vegetable
+
+# Fruits
+Class: Apple
+    SubClassOf: Fruit
+Class: Lemon
+    SubClassOf: Fruit
+Class: Banana
+    SubClassOf: Fruit
+Class: Strawberry
+    SubClassOf: Fruit
+
+# Grains
+Class: Rice
+    SubClassOf: Grain
+Class: Wheat
+    SubClassOf: Grain
+Class: Bulgur
+    SubClassOf: Grain
+
+# Products made from grain count as grain here
+Class: Bread
+    SubClassOf: Grain
+Class: Pide
+    Annotations: rdfs:label "pide"@tr
+    SubClassOf: Bread
+Class: Lavash
+    Annotations: rdfs:label "lavaş"@tr
+    SubClassOf: Bread
+Class: BurgerBun
+    SubClassOf: Bread
+Class: Yufka
+    Annotations: rdfs:comment "Thin sheets of wheat dough used for börek and gözleme."
+    SubClassOf: Grain
+Class: PizzaDough
+    SubClassOf: Grain
+Class: Pasta
+    SubClassOf: Grain
+
+# Legumes
+Class: Chickpea
+    SubClassOf: Legume
+Class: Lentil
+    SubClassOf: Legume
+Class: KidneyBean
+    SubClassOf: Legume
+
+# Mushrooms
+Class: ButtonMushroom
+    SubClassOf: Mushroom
+Class: Portobello
+    SubClassOf: Mushroom
+Class: Shiitake
+    SubClassOf: Mushroom
+
+# Meat
+Class: Beef
+    SubClassOf: RedMeat
+Class: Lamb
+    SubClassOf: RedMeat
+Class: Pork
+    SubClassOf: RedMeat
+Class: Chicken
+    SubClassOf: Poultry
+Class: TurkeyMeat
+    Annotations: rdfs:comment "Named TurkeyMeat so it cannot be confused with Turkish cuisine later."
+    SubClassOf: Poultry
+
+# Offal (organ meat) overlaps with the animal it comes from
+Class: Offal
+    SubClassOf: Meat
+Class: LambIntestine
+    Annotations: rdfs:comment "The main ingredient of kokoreç."
+    SubClassOf: Lamb, Offal
+
+# Seafood
+Class: Salmon
+    SubClassOf: Seafood
+Class: Tuna
+    SubClassOf: Seafood
+Class: Shrimp
+    SubClassOf: Seafood
+Class: Cod
+    SubClassOf: Seafood
+
+# Dairy
+Class: Milk
+    SubClassOf: Dairy
+Class: Cheese
+    SubClassOf: Dairy
+Class: Yogurt
+    SubClassOf: Dairy
+Class: Butter
+    SubClassOf: Dairy
+
+# Eggs
+Class: ChickenEgg
+    SubClassOf: Egg
+
+
+# ---------------------------------------------------------------------------
+# Dish categories (defined classes: the reasoner sorts dishes into these)
+# ---------------------------------------------------------------------------
+
+Class: MeatDish
+    EquivalentTo: Dish and (hasIngredient some Meat)
+
+Class: SeafoodDish
+    EquivalentTo: Dish and (hasIngredient some Seafood)
+
+Class: MushroomDish
+    EquivalentTo: Dish and (hasIngredient some Mushroom)
+
+Class: VegetarianDish
+    Annotations: rdfs:comment "Only works for dishes with a closure axiom: under the open-world assumption, a dish without one might still contain meat."
+    EquivalentTo: Dish and (hasIngredient only (not (Meat or Seafood)))
+
+Class: VeganDish
+    EquivalentTo: Dish and (hasIngredient only (PlantIngredient or Mushroom))
+
+Class: TurkishDish
+    EquivalentTo: Dish and (hasCuisine value TurkishCuisine)
+
+Class: ItalianDish
+    EquivalentTo: Dish and (hasCuisine value ItalianCuisine)
+
+
+# ---------------------------------------------------------------------------
+# Dish families (primitive: what every member has, but no closure, because
+# the family as a whole has no fixed recipe)
+# ---------------------------------------------------------------------------
+
+Class: Kebab
+    SubClassOf:
+        Dish,
+        (hasCuisine value TurkishCuisine)
+
+Class: Borek
+    Annotations: rdfs:label "börek"@tr
+    SubClassOf:
+        Dish,
+        (hasIngredient some Yufka),
+        (hasCuisine value TurkishCuisine)
+
+Class: Gozleme
+    Annotations: rdfs:label "gözleme"@tr
+    SubClassOf:
+        Dish,
+        (hasIngredient some Yufka),
+        (hasCuisine value TurkishCuisine)
+
+Class: Pizza
+    SubClassOf:
+        Dish,
+        (hasIngredient some PizzaDough),
+        (hasIngredient some Tomato),
+        (hasIngredient some Cheese),
+        (hasCuisine value ItalianCuisine)
+
+Class: Burger
+    SubClassOf:
+        Dish,
+        (hasIngredient some BurgerBun),
+        (hasCuisine value AmericanCuisine)
+
+
+# ---------------------------------------------------------------------------
+# Dishes. Each one lists what it contains ("some") and closes the list
+# ("only"), so the reasoner can also conclude what it does NOT contain.
+# ---------------------------------------------------------------------------
+
+Class: AdanaKebab
+    Annotations: rdfs:label "Adana kebap"@tr
+    SubClassOf:
+        Kebab,
+        (hasIngredient some Lamb),
+        (hasIngredient some ChiliPepper),
+        (hasIngredient some Onion),
+        (hasIngredient some Lavash),
+        (hasIngredient only (Lamb or ChiliPepper or Onion or Lavash))
+
+Class: Beyti
+    Annotations: rdfs:label "Beyti"@tr
+    SubClassOf:
+        Kebab,
+        (hasIngredient some Lamb),
+        (hasIngredient some Garlic),
+        (hasIngredient some Lavash),
+        (hasIngredient some Tomato),
+        (hasIngredient some Yogurt),
+        (hasIngredient some Butter),
+        (hasIngredient only (Lamb or Garlic or Lavash or Tomato or Yogurt or Butter))
+
+Class: Iskender
+    Annotations: rdfs:label "İskender"@tr
+    SubClassOf:
+        Kebab,
+        (hasIngredient some (Lamb or Beef)),
+        (hasIngredient some Pide),
+        (hasIngredient some Tomato),
+        (hasIngredient some Yogurt),
+        (hasIngredient some Butter),
+        (hasIngredient only (Lamb or Beef or Pide or Tomato or Yogurt or Butter))
+
+Class: Tandir
+    Annotations: rdfs:label "Tandır"@tr
+    SubClassOf:
+        Kebab,
+        (hasIngredient some Lamb),
+        (hasIngredient only (Lamb))
+
+Class: Kokorec
+    Annotations: rdfs:label "Kokoreç"@tr
+    SubClassOf:
+        Dish,
+        (hasIngredient some LambIntestine),
+        (hasIngredient some Bread),
+        (hasIngredient some Tomato),
+        (hasIngredient some ChiliPepper),
+        (hasCuisine value TurkishCuisine),
+        (hasIngredient only (LambIntestine or Bread or Tomato or ChiliPepper))
+
+Class: PeynirliBorek
+    Annotations: rdfs:label "Peynirli börek"@tr
+    SubClassOf:
+        Borek,
+        (hasIngredient some Yufka),
+        (hasIngredient some Cheese),
+        (hasIngredient some ChickenEgg),
+        (hasIngredient some Butter),
+        (hasIngredient only (Yufka or Cheese or ChickenEgg or Butter))
+
+Class: IspanakliBorek
+    Annotations: rdfs:label "Ispanaklı börek"@tr
+    SubClassOf:
+        Borek,
+        (hasIngredient some Yufka),
+        (hasIngredient some Spinach),
+        (hasIngredient some Cheese),
+        (hasIngredient some Onion),
+        (hasIngredient some ChickenEgg),
+        (hasIngredient only (Yufka or Spinach or Cheese or Onion or ChickenEgg))
+
+Class: KiymaliBorek
+    Annotations: rdfs:label "Kıymalı börek"@tr
+    SubClassOf:
+        Borek,
+        (hasIngredient some Yufka),
+        (hasIngredient some Beef),
+        (hasIngredient some Onion),
+        (hasIngredient only (Yufka or Beef or Onion))
+
+Class: PatatesliBorek
+    Annotations: rdfs:label "Patatesli börek"@tr
+    SubClassOf:
+        Borek,
+        (hasIngredient some Yufka),
+        (hasIngredient some Potato),
+        (hasIngredient some Onion),
+        (hasIngredient only (Yufka or Potato or Onion))
+
+Class: SuBoregi
+    Annotations: rdfs:label "Su böreği"@tr
+    SubClassOf:
+        Borek,
+        (hasIngredient some Yufka),
+        (hasIngredient some Cheese),
+        (hasIngredient some ChickenEgg),
+        (hasIngredient some Butter),
+        (hasIngredient some Milk),
+        (hasIngredient some Parsley),
+        (hasIngredient only (Yufka or Cheese or ChickenEgg or Butter or Milk or Parsley))
+
+Class: SigaraBoregi
+    Annotations: rdfs:label "Sigara böreği"@tr
+    SubClassOf:
+        Borek,
+        (hasIngredient some Yufka),
+        (hasIngredient some Cheese),
+        (hasIngredient some Parsley),
+        (hasIngredient only (Yufka or Cheese or Parsley))
+
+Class: PeynirliGozleme
+    Annotations: rdfs:label "Peynirli gözleme"@tr
+    SubClassOf:
+        Gozleme,
+        (hasIngredient some Yufka),
+        (hasIngredient some Cheese),
+        (hasIngredient some Butter),
+        (hasIngredient only (Yufka or Cheese or Butter))
+
+Class: IspanakliGozleme
+    Annotations: rdfs:label "Ispanaklı gözleme"@tr
+    SubClassOf:
+        Gozleme,
+        (hasIngredient some Yufka),
+        (hasIngredient some Spinach),
+        (hasIngredient some Cheese),
+        (hasIngredient some Butter),
+        (hasIngredient only (Yufka or Spinach or Cheese or Butter))
+
+Class: KiymaliGozleme
+    Annotations: rdfs:label "Kıymalı gözleme"@tr
+    SubClassOf:
+        Gozleme,
+        (hasIngredient some Yufka),
+        (hasIngredient some Beef),
+        (hasIngredient some Onion),
+        (hasIngredient some Butter),
+        (hasIngredient only (Yufka or Beef or Onion or Butter))
+
+Class: PatatesliGozleme
+    Annotations: rdfs:label "Patatesli gözleme"@tr
+    SubClassOf:
+        Gozleme,
+        (hasIngredient some Yufka),
+        (hasIngredient some Potato),
+        (hasIngredient some Onion),
+        (hasIngredient some ChiliPepper),
+        (hasIngredient only (Yufka or Potato or Onion or ChiliPepper))
+
+Class: Karniyarik
+    Annotations: rdfs:label "Karnıyarık"@tr
+    SubClassOf:
+        Dish,
+        (hasIngredient some Eggplant),
+        (hasIngredient some Beef),
+        (hasIngredient some Onion),
+        (hasIngredient some Tomato),
+        (hasIngredient some BellPepper),
+        (hasCuisine value TurkishCuisine),
+        (hasIngredient only (Eggplant or Beef or Onion or Tomato or BellPepper))
+
+Class: ImamBayildi
+    Annotations: rdfs:label "İmam bayıldı"@tr
+    SubClassOf:
+        Dish,
+        (hasIngredient some Eggplant),
+        (hasIngredient some Onion),
+        (hasIngredient some Tomato),
+        (hasIngredient some Garlic),
+        (hasCuisine value TurkishCuisine),
+        (hasIngredient only (Eggplant or Onion or Tomato or Garlic))
+
+Class: Menemen
+    Annotations: rdfs:label "Menemen"@tr
+    SubClassOf:
+        Dish,
+        (hasIngredient some ChickenEgg),
+        (hasIngredient some Tomato),
+        (hasIngredient some BellPepper),
+        (hasIngredient some Onion),
+        (hasCuisine value TurkishCuisine),
+        (hasIngredient only (ChickenEgg or Tomato or BellPepper or Onion))
+
+Class: MercimekCorbasi
+    Annotations: rdfs:label "Mercimek çorbası"@tr
+    SubClassOf:
+        Dish,
+        (hasIngredient some Lentil),
+        (hasIngredient some Onion),
+        (hasIngredient some Carrot),
+        (hasIngredient some Butter),
+        (hasCuisine value TurkishCuisine),
+        (hasIngredient only (Lentil or Onion or Carrot or Butter))
+
+Class: Pilav
+    Annotations: rdfs:label "Pilav"@tr
+    SubClassOf:
+        Dish,
+        (hasIngredient some Rice),
+        (hasIngredient some Butter),
+        (hasCuisine value TurkishCuisine),
+        (hasIngredient only (Rice or Butter))
+
+Class: MargheritaPizza
+    SubClassOf:
+        Pizza,
+        (hasIngredient some PizzaDough),
+        (hasIngredient some Tomato),
+        (hasIngredient some Cheese),
+        (hasIngredient only (PizzaDough or Tomato or Cheese))
+
+Class: MushroomPizza
+    SubClassOf:
+        Pizza,
+        (hasIngredient some PizzaDough),
+        (hasIngredient some Tomato),
+        (hasIngredient some Cheese),
+        (hasIngredient some ButtonMushroom),
+        (hasIngredient only (PizzaDough or Tomato or Cheese or ButtonMushroom))
+
+Class: Hamburger
+    SubClassOf:
+        Burger,
+        (hasIngredient some BurgerBun),
+        (hasIngredient some Beef),
+        (hasIngredient some Onion),
+        (hasIngredient some Tomato),
+        (hasIngredient some Lettuce),
+        (hasIngredient only (BurgerBun or Beef or Onion or Tomato or Lettuce))
+
+Class: Cheeseburger
+    SubClassOf:
+        Burger,
+        (hasIngredient some BurgerBun),
+        (hasIngredient some Beef),
+        (hasIngredient some Cheese),
+        (hasIngredient some Onion),
+        (hasIngredient some Tomato),
+        (hasIngredient some Lettuce),
+        (hasIngredient only (BurgerBun or Beef or Cheese or Onion or Tomato or Lettuce))
+
+Class: ChickpeaBurger
+    SubClassOf:
+        Burger,
+        (hasIngredient some BurgerBun),
+        (hasIngredient some Chickpea),
+        (hasIngredient some Onion),
+        (hasIngredient some Tomato),
+        (hasIngredient some Lettuce),
+        (hasIngredient only (BurgerBun or Chickpea or Onion or Tomato or Lettuce))
+
+Class: Steak
+    SubClassOf:
+        Dish,
+        (hasIngredient some Beef),
+        (hasIngredient some Butter),
+        (hasIngredient some Garlic),
+        (hasIngredient only (Beef or Butter or Garlic))
+
+Class: SpaghettiBolognese
+    SubClassOf:
+        Dish,
+        (hasIngredient some Pasta),
+        (hasIngredient some Beef),
+        (hasIngredient some Tomato),
+        (hasIngredient some Onion),
+        (hasIngredient some Garlic),
+        (hasCuisine value ItalianCuisine),
+        (hasIngredient only (Pasta or Beef or Tomato or Onion or Garlic))
+
+Class: MushroomRisotto
+    SubClassOf:
+        Dish,
+        (hasIngredient some Rice),
+        (hasIngredient some Portobello),
+        (hasIngredient some Cheese),
+        (hasIngredient some Butter),
+        (hasIngredient some Onion),
+        (hasCuisine value ItalianCuisine),
+        (hasIngredient only (Rice or Portobello or Cheese or Butter or Onion))
+
+Class: FishAndChips
+    SubClassOf:
+        Dish,
+        (hasIngredient some Cod),
+        (hasIngredient some Potato),
+        (hasIngredient some Wheat),
+        (hasCuisine value BritishCuisine),
+        (hasIngredient only (Cod or Potato or Wheat))
+
+Class: Omelette
+    SubClassOf:
+        Dish,
+        (hasIngredient some ChickenEgg),
+        (hasIngredient some Butter),
+        (hasIngredient only (ChickenEgg or Butter))
