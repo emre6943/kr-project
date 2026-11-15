@@ -23,6 +23,15 @@ ObjectProperty: hasIngredient
     Domain: Dish
     Range: Ingredient
 
+ObjectProperty: isIngredientOf
+    Annotations: rdfs:comment "Links an ingredient to a dish it is used in."
+    InverseOf: hasIngredient
+
+ObjectProperty: likes
+    Annotations: rdfs:comment "Links a person to a food they like."
+    Domain: Person
+    Range: Food
+
 ObjectProperty: hasCuisine
     Annotations: rdfs:comment "Links a dish to the cuisine it comes from."
     Domain: Dish
@@ -624,3 +633,60 @@ Class: Omelette
         (hasIngredient some ChickenEgg),
         (hasIngredient some Butter),
         (hasIngredient only (ChickenEgg or Butter))
+
+
+# ---------------------------------------------------------------------------
+# People and suggestions
+#
+# A diet is something a person states, so the diet classes are primitive.
+# OWL cannot turn an individual's likes into dish suggestions on its own
+# (likes points at ingredient classes, and dishes are classes too), so each
+# person gets a profile: a defined class that the reasoner fills with dishes.
+# ---------------------------------------------------------------------------
+
+Class: Person
+    DisjointWith: Food, Cuisine
+
+Class: VegetarianPerson
+    SubClassOf: Person
+
+Class: VeganPerson
+    SubClassOf: VegetarianPerson
+
+# Likes can point at an ingredient class or a dish class (both are Food).
+
+Individual: Emre
+    Types:
+        Person,
+        likes some Eggplant,
+        likes some Meat,
+        likes some Iskender,
+        likes some Beyti,
+        likes some Burger
+
+Individual: Saketh
+    Types:
+        VegetarianPerson,
+        likes some Potato,
+        likes some Spinach
+
+Individual: V
+    Types:
+        Person,
+        likes some Pizza
+
+# A liked dish is turned into suggestions through a logical notion of
+# similarity: the same family (Iskender, Beyti -> Kebab) or the same cuisine
+# (Pizza -> Italian). Never a similarity score.
+
+Class: SuggestionForEmre
+    Annotations: rdfs:comment "Profile of Emre: no diet; dishes with eggplant or meat, plus the families of the dishes he likes (kebabs, burgers). OWL workaround: a person's likes cannot become suggestions automatically, so the profile is a class. Datalog does this with one general rule for everyone."
+    EquivalentTo: Dish and ((hasIngredient some (Eggplant or Meat)) or Kebab or Burger)
+
+Class: SuggestionForSaketh
+    Annotations: rdfs:comment "Profile of Saketh: vegetarian dishes with potato or spinach. Same OWL workaround as SuggestionForEmre."
+    EquivalentTo: VegetarianDish and (hasIngredient some (Potato or Spinach))
+
+Class: SuggestionForV
+    Annotations: rdfs:comment "Profile of V: likes pizza, so pizzas and other dishes of the same cuisine. Same OWL workaround as SuggestionForEmre."
+    EquivalentTo: Dish and (Pizza or (hasCuisine value ItalianCuisine))

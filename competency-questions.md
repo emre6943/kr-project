@@ -1,24 +1,37 @@
 # Competency questions
 
-Domain: **food**: ingredients and their categories, dishes made from them, and what people like,
-dislike or cannot eat. The knowledge base should answer what a person, or a group of people,
-might enjoy.
+Domain: **food**: ingredients and their categories, dishes made from them, and what people like.
+The knowledge base should answer what a person might enjoy.
 
 Keep every question answerable by logical reasoning: no ratings, scores, calories or
 "similar taste" measures, because the spec rules out probabilistic, fuzzy and numeric domains.
 
-## Scope: ? — owner ?
+## Diets
 
-_To be written by the owner._
+1. Is dish X vegan? Is it vegetarian?
+2. Which dishes are vegan? Which are vegetarian?
 
-## Scope: ? — owner ?
+## Suggestions from liked ingredients
 
-_To be written by the owner._
+3. A likes ingredients X and Y. Which dishes could A enjoy?
+4. A is vegetarian and likes X. Which dishes could A enjoy?
 
-## Scope: ? — owner ?
+## Suggestions from liked dishes
 
-_To be written by the owner._
+5. A likes dish X. Which other dishes could A enjoy?
+   "Similar" has to be a logical notion, for example sharing a main ingredient or belonging to
+   the same family (kebab, börek). A similarity score is out of scope.
 
-## Scope: ? — owner ?
+## Feasibility notes
 
-_To be written by the owner._
+- 1–2 and 4 work in OWL directly (closure axioms plus defined classes).
+- 3 works in OWL only through one defined "profile" class per person; datalog needs one general
+  rule.
+- 5 is awkward in OWL (dishes are classes, so OWL cannot go from a liked dish to its
+  ingredients and on to other dishes) and natural in datalog.
+
+## Later
+
+- Allergies (`allergicTo`): "Which dishes are safe for someone allergic to X?" Not in the draft.
+- Halal is deliberately excluded: it depends on slaughter and certification, not on ingredients,
+  so it cannot be inferred from this model.

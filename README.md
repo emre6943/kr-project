@@ -8,15 +8,14 @@ lecturer Dr. Patrick Koopmann. Worth 35% of the course grade; at least a 5.5 is 
 ## Domain
 
 **Food** (chosen 2026-11-14, replacing diseases): ingredients and their categories, dishes,
-and people's likes, dislikes and restrictions, used to suggest what a person or a group might
-enjoy.
+and people's likes and diets (vegetarian, vegan), used to suggest dishes a person might enjoy.
 
 ## Repository layout
 
 | Path | What |
 |---|---|
 | [`ontology/food.omn`](ontology/food.omn) | the OWL ontology (Manchester syntax); design notes and what the reasoner infers in [`ontology/README.md`](ontology/README.md) |
-| [`competency-questions.md`](competency-questions.md) | competency questions, one section per scope owner |
+| [`competency-questions.md`](competency-questions.md) | competency questions, grouped by topic |
 | [`AI_USE.md`](AI_USE.md) | log of every GenAI use, for the report's disclosure |
 | [`assignment/`](assignment/) | the project spec and the course rules, copied from Canvas |
 
@@ -53,4 +52,3 @@ formalising the competency questions.
 - **No GenAI text in the report.** GenAI may help with code and scripts; log every use in
   [`AI_USE.md`](AI_USE.md) so the report can disclose it.
 - **Commit early and often.** The final submission needs a screenshot of the version history.
-- Record who did what as we go; the report's appendix needs each member's contribution.
