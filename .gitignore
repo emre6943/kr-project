@@ -11,5 +11,3 @@
 .vscode/
 __pycache__/
 
-# Raw source downloads (large; re-fetch with data/sources/fetch.sh)
-data/sources/raw/

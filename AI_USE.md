@@ -1,11 +1,13 @@
 # AI use log
 
 The course requires every use of generative AI to be recorded and disclosed in the report.
-Add one row per use.
+One row per use.
 
-| Date       | Who  | Tool   | What it was used for                                                                                                                  |
-| ---------- | ---- | ------ | ------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-11-06 | Emre | Claude | Set up this repository and copied the assignment text from Canvas                                                                     |
-| 2026-11-09 | Emre | Claude | Surveyed data sources for the diseases domain; wrote `data/sources/` (fetch script, Wikidata coverage query, source notes)          |
-| 2026-11-09 | Emre | Claude | Drafted `backbone.md` (class/relation skeleton, naming conventions, candidate disease list with DOID coverage) for the team to edit |
-| 2026-11-09 | Emre | Claude | Wrote `competency-questions.md`: recorded Emre's symptom questions and scope                                                        |
+| Date | Tool | Use |
+|---|---|---|
+| 2026-11-06 | Claude | Set up the repository; copied the assignment text from Canvas |
+| 2026-11-09 | Claude | Surveyed data sources and drafted a vocabulary for the earlier diseases domain (since removed) |
+| 2026-11-14 | Claude | Refreshed the assignment copy; removed the diseases material |
+| 2026-11-14 | Claude | Wrote the OWL ontology `ontology/food.omn` (ingredients, dishes, defined classes) and checked it with HermiT |
+| 2026-11-14 | Claude | Wrote `ontology/README.md` and parts of `README.md` |
+| 2026-11-15 | Claude | Added the people layer to the ontology; tidied the docs |
