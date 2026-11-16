@@ -14,3 +14,4 @@ One row per use.
 
 | 2026-11-16 | Codex | Checking compatibility of added food preferences to the rest of code schema |
 | 2026-11-16 | Codex | Reorganized food classes without changing their axioms, added manual DL queries with expected results.|
+| 2026-11-16 | AI Overleaf | Used assistant  only to show format for Springer LNCS|
