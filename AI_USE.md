@@ -11,3 +11,6 @@ One row per use.
 | 2026-11-14 | Claude | Wrote the OWL ontology `ontology/food.omn` (ingredients, dishes, defined classes) and checked it with HermiT |
 | 2026-11-14 | Claude | Wrote `ontology/README.md` and parts of `README.md` |
 | 2026-11-15 | Claude | Added the people layer to the ontology; tidied the docs |
+
+| 2026-11-16 | Codex | Checking compatibility of added food preferences to the rest of code schema |
+| 2026-11-16 | Codex | Reorganized food classes without changing their axioms, added manual DL queries with expected results.|

@@ -8,22 +8,22 @@ Protégé does not notice when the file changes on disk: close and reopen it aft
 Saving from Protégé may rewrite the whole file in its own layout, so agree in the team chat
 before two people edit it at once.
 
-## What is in it (2026-11-15)
+## What is in it (2026-11-16)
 
 | Part | Contents |
 |---|---|
 | Top level | `Food` ⊒ `Ingredient`, `Dish` (disjoint); `Cuisine` (disjoint from `Food`); `Person` (disjoint from `Food` and `Cuisine`) |
 | Ingredient categories | `PlantIngredient` (`Vegetable`, `Fruit`, `Grain`, `Legume`), `Mushroom`, `Meat` (`RedMeat`, `Poultry`, `Offal`), `Seafood`, `Dairy`, `Egg`. The six top categories are pairwise disjoint |
-| Ingredients | 49 concrete ingredients as classes, e.g. `Eggplant ⊑ Vegetable`, `Lavash ⊑ Bread ⊑ Grain`, `LambIntestine ⊑ Lamb ⊓ Offal` |
+| Ingredients | 50 concrete ingredients as classes (including Pesto with an unspecified recipe), e.g. `Eggplant ⊑ Vegetable`, `Lavash ⊑ Bread ⊑ Grain`, `LambIntestine ⊑ Lamb ⊓ Offal` |
 | Properties | `hasIngredient` (Dish → Ingredient), its inverse `isIngredientOf`, `hasCuisine` (Dish → Cuisine), `likes` (Person → Food) |
 | Cuisines | individuals `TurkishCuisine`, `ItalianCuisine`, `AmericanCuisine`, `BritishCuisine`, all different |
-| Dish families | `Kebab`, `Borek`, `Gozleme`, `Pizza`, `Burger`: what every member has, no closure |
-| Dishes | 30 dishes, each with its ingredients (`hasIngredient some X`) and a closure axiom (`hasIngredient only (X or Y …)`) |
+| Dish families | `Kebab`, `Borek`, `Gozleme`, `Pizza`, `Burger`, `Spaghetti`: what every member has, no closure |
+| Dishes | 30 original dishes with ingredient restrictions and closure axioms; TuscanChicken and HummusWithVegetables have partial recipes without closure |
 | Defined classes | `MeatDish`, `SeafoodDish`, `MushroomDish`, `VegetarianDish`, `VeganDish`, `TurkishDish`, `ItalianDish` |
 | People | `VegetarianPerson`, `VeganPerson ⊑ VegetarianPerson` (primitive); individuals for team members and friends: `Emre`, `Saketh`, `V` |
 | Suggestion profiles | `SuggestionForEmre`, `SuggestionForSaketh`, `SuggestionForV`: one defined class per person |
 
-Totals: 112 classes, 4 object properties, 7 individuals, 10 complex definitions.
+Totals: 116 classes, 4 object properties, 7 individuals, 10 complex definitions.
 
 ## Modelling decisions
 
@@ -56,9 +56,9 @@ Totals: 112 classes, 4 object properties, 7 individuals, 10 complex definitions.
 
 | Person | Diet and likes | Profile | Inferred suggestions |
 |---|---|---|---|
-| `Emre` | no diet; likes eggplant, meat, İskender, Beyti, burgers | `Dish ⊓ (∃hasIngredient.(Eggplant ⊔ Meat) ⊔ Kebab ⊔ Burger)` | every MeatDish (12 dishes), plus Karniyarik, ImamBayildi, ChickpeaBurger |
+| `Emre` | no diet; likes eggplant, meat, İskender, Beyti, burgers | `Dish ⊓ (∃hasIngredient.(Eggplant ⊔ Meat) ⊔ Kebab ⊔ Burger)` | every MeatDish (expected 13, including TuscanChicken), plus ImamBayildi and ChickpeaBurger |
 | `Saketh` | vegetarian; likes potato, spinach | `VegetarianDish ⊓ ∃hasIngredient.(Potato ⊔ Spinach)` | PatatesliBorek, PatatesliGozleme, IspanakliBorek, IspanakliGozleme |
-| `V` | no diet; likes pizza | `Dish ⊓ (Pizza ⊔ ∃hasCuisine.{ItalianCuisine})` | MargheritaPizza, MushroomPizza, SpaghettiBolognese, MushroomRisotto |
+| `V` | no diet; likes pesto, spaghetti, pizza, Tuscan chicken, hummus with vegetables | `Dish ⊓ (Pizza ⊔ Spaghetti ⊔ TuscanChicken ⊔ HummusWithVegetables ⊔ ∃hasIngredient.Pesto ⊔ ∃hasCuisine.{ItalianCuisine})` | Expected concrete dishes: MargheritaPizza, MushroomPizza, SpaghettiBolognese, MushroomRisotto, TuscanChicken, HummusWithVegetables |
 
 - FishAndChips has potato but also cod, so it is not suggested to Saketh.
 - ImamBayildi reaches Emre through eggplant, and ChickpeaBurger through the burger family, even
@@ -67,11 +67,11 @@ Totals: 112 classes, 4 object properties, 7 individuals, 10 complex definitions.
   axiom is `∃hasIngredient.(Lamb ⊔ Beef)`: it contains lamb *or* beef, so it does not follow that
   it contains lamb, but it does follow that it contains meat. A good example of what disjunction
   does and does not entail.
-- The reasoner also infers `SuggestionForV ≡ ItalianDish`, because every pizza is Italian.
+- The extended profile of V is no longer equivalent to `ItalianDish`: it includes other foods too.
 
-## What HermiT infers
+## Historical HermiT results (2026-11-15)
 
-Checked with HermiT (via ROBOT) on 2026-11-15, after the people update: consistent, and no unsatisfiable classes.
+Checked with HermiT (via ROBOT) on 2026-11-15: consistent, and no unsatisfiable classes. This table predates the additions of 2026-11-16; the current version still needs HermiT verification. TuscanChicken is additionally expected under MeatDish.
 
 | Inferred class | Dishes |
 |---|---|
@@ -88,7 +88,7 @@ ingredient categories.
 
 ## Against the grading scheme
 
-- **≥ 50 names**: met (112 classes).
+- **≥ 50 names**: met (116 classes).
 - **≥ 10 complex definitions**: met (7 dish categories + 3 suggestion profiles).
 - **All of ALC + 5 constructs beyond it**: ALC is covered (`and`, `or`, `not`, `some`, `only`).
   Beyond ALC so far: **nominals** (`value TurkishCuisine`) and **inverse properties**
@@ -104,3 +104,13 @@ ingredient categories.
 - **Dish-to-dish suggestions** ("likes İskender, so suggest …"), and one general suggestion rule
   for every person: both belong in **datalog** (Nemo, lectures 8–9), where they are single rules.
 - Dislikes, if needed, via negation as failure in datalog.
+
+
+## Manual regression checks
+
+See [queries.md](queries.md) for Manchester DL queries and expected results.
+These are expectations derived from the axioms, not results of a new HermiT run.
+Likes and suggestion profiles are maintained separately: changing V's likes does not
+update SuggestionForV automatically. Pesto has an unspecified recipe; Spaghetti,
+TuscanChicken and HummusWithVegetables have partial recipes without closure axioms,
+so no vegetarian or vegan classification is assumed for them.

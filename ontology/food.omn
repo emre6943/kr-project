@@ -265,6 +265,12 @@ Class: ChickenEgg
     SubClassOf: Egg
 
 
+# Pesto has no fixed recipe or inferred diet category.
+Class: Pesto
+    Annotations: rdfs:comment "Pesto ingredient; recipe and dairy content unspecified."
+    SubClassOf: Ingredient
+
+
 # ---------------------------------------------------------------------------
 # Dish categories (defined classes: the reasoner sorts dishes into these)
 # ---------------------------------------------------------------------------
@@ -296,6 +302,10 @@ Class: ItalianDish
 # Dish families (primitive: what every member has, but no closure, because
 # the family as a whole has no fixed recipe)
 # ---------------------------------------------------------------------------
+
+Class: Spaghetti
+    Annotations: rdfs:comment "Spaghetti dish with unspecified sauce."
+    SubClassOf: Dish, (hasIngredient some Pasta)
 
 Class: Kebab
     SubClassOf:
@@ -332,9 +342,18 @@ Class: Burger
 
 
 # ---------------------------------------------------------------------------
-# Dishes. Each one lists what it contains ("some") and closes the list
+# Dishes. The original recipes list what they contain ("some") and close the list
 # ("only"), so the reasoner can also conclude what it does NOT contain.
 # ---------------------------------------------------------------------------
+
+# Partial recipes: these two dishes deliberately have no closure axioms.
+Class: TuscanChicken
+    Annotations: rdfs:comment "Tuscan-style chicken; full recipe unspecified."
+    SubClassOf: Dish, (hasIngredient some Chicken)
+
+Class: HummusWithVegetables
+    Annotations: rdfs:comment "Chickpea hummus served with vegetables; full recipe unspecified."
+    SubClassOf: Dish, (hasIngredient some Chickpea), (hasIngredient some Vegetable)
 
 Class: AdanaKebab
     Annotations: rdfs:label "Adana kebap"@tr
@@ -598,7 +617,7 @@ Class: Steak
 
 Class: SpaghettiBolognese
     SubClassOf:
-        Dish,
+        Spaghetti,
         (hasIngredient some Pasta),
         (hasIngredient some Beef),
         (hasIngredient some Tomato),
@@ -673,7 +692,11 @@ Individual: Saketh
 Individual: V
     Types:
         Person,
-        likes some Pizza
+        likes some Pizza,
+        likes some Pesto,
+        likes some Spaghetti,
+        likes some TuscanChicken,
+        likes some HummusWithVegetables
 
 # A liked dish is turned into suggestions through a logical notion of
 # similarity: the same family (Iskender, Beyti -> Kebab) or the same cuisine
@@ -688,5 +711,5 @@ Class: SuggestionForSaketh
     EquivalentTo: VegetarianDish and (hasIngredient some (Potato or Spinach))
 
 Class: SuggestionForV
-    Annotations: rdfs:comment "Profile of V: likes pizza, so pizzas and other dishes of the same cuisine. Same OWL workaround as SuggestionForEmre."
-    EquivalentTo: Dish and (Pizza or (hasCuisine value ItalianCuisine))
+    Annotations: rdfs:comment "Profile of V: likes pesto, spaghetti, pizza, Tuscan chicken and hummus with vegetables. Includes those dishes, dishes with pesto, and the original Italian cuisine suggestions. Manually maintained independently of likes."
+    EquivalentTo: Dish and (Pizza or Spaghetti or TuscanChicken or HummusWithVegetables or (hasIngredient some Pesto) or (hasCuisine value ItalianCuisine))
